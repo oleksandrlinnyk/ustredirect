@@ -1,85 +1,75 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<meta charset="utf-8">
-	<title>Redirecting...</title>
-	<script type="text/javascript">
-		/*
-		This file randomly redirects a user to one of the URLs in a list. It is built
-		with the intent of randomization in a controlled experiment.
-
-		For example, create three Google Docs forms (or equivalent) and add their URLs
-		to the list below. That's it!
-
-		The user is then automatically and randomly assigned to one of the URLs when
-		the user visits this file. If the user decides to close and reopen the browser,
-		the user is still redirected to the same URL since a cookie is saved in the
-		user's browser.
-		
-		Peter M. Dahlgren
-		@peterdalle
-		peterdahlgren.com
-		2016-01-05
-		*/
-		
-		// List of URLs (two or more) for the experimental treatment and control groups.
-		var RedirectURLs = {
-			"urls" : [
-				{ "url" : "https://telegra.ph/Discovered-a-crucial-cause-of-Mars-turning-into-a-dead-desert-10-14" },
-				{ "url" : "https://universemagazine.com/en/discovered-a-crucial-cause-of-mars-turning-into-a-dead-desert/" },
-			]
-		}
-
-		// Count the number of URLs in list.
-		var Groups = RedirectURLs.urls.length;
-
-		// Randomize number and get the corresponding index for the URL in list.
-		var gotoUrl = RedirectURLs.urls[GetRandomNumber(Groups)].url
-
-		// Perform redirection.
-		if (window.location.search == "?debug") {
-			// Debug mode: If user supplies a ?debug querystring,
-			// then only show the redirect URL, but don't actually redirect.
-			document.write("Redirect URL: " + gotoUrl);
-		} else {
-			// Redirect the user to the new URL.
-			document.location = gotoUrl;
-		}
-
-		// Perform randomization and save it to a cookie.
-		function GetRandomNumber(Groups) {
-			// Has cookie been set?
-			var rndIndex = null;
-			if (GetCookie() != "") {
-				// Yes, get randomization from cookie.
-				rndIndex = GetCookie()
-			} else {
-				// No, set random value to cookie.
-				rndIndex = Math.floor((Math.random() * Groups));
-				SetCookie(rndIndex, 30) // Set cookie for 30 days.
-			}
-			return rndIndex
-		}
-
-		// Set cookie with randomization value.
-		function SetCookie(CookieValue, DaysUntilExpire) {
-			var d = new Date();
-			d.setTime(d.getTime() + (DaysUntilExpire * 24 * 60 * 60 * 1000));
-			document.cookie = "rnd=" + CookieValue + ";expires=" + d.toUTCString();
-		}
-
-		// Get cookie with randomization value. Return empty string if not set.
-		function GetCookie() {
-			var ca = document.cookie.split(';');
-			for(var i = 0; i < ca.length; i++) {
-				var c = ca[i];
-				while (c.charAt(0) == ' ') c = c.substring(1);
-				if (c.indexOf("rnd=") == 0) return c.substring(4, c.length);
-			}
-			return "";
-		}
-	</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Redirect to Mars Article</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1 {
+            color: #4a4a4a;
+        }
+        p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+        #redirect-link {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        #redirect-link:hover {
+            background-color: #2980b9;
+        }
+        .mars-icon {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 1rem;
+        }
+    </style>
+    <script>
+        window.onload = function() {
+            var urls = [
+                'https://universemagazine.com/en/discovered-a-crucial-cause-of-mars-turning-into-a-dead-desert/',
+                'https://telegra.ph/Discovered-a-crucial-cause-of-Mars-turning-into-a-dead-desert-10-14',
+                'https://telegra.ph/Discovered-a-crucial-cause-of-Mars-turning-into-a-dead-desert-10-14'
+            ];
+            var randomUrl = urls[Math.floor(Math.random() * urls.length)];
+            window.location.href = randomUrl;
+        }
+    </script>
 </head>
 <body>
+    <div class="container">
+        <svg class="mars-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#e74c3c">
+            <circle cx="12" cy="12" r="10"/>
+            <path fill="#c0392b" d="M12 2a10 10 0 0 1 10 10c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2zm-1 5a1 1 0 0 0 0 2h2a1 1 0 0 0 0-2h-2zm-3 4a1 1 0 0 0 0 2h8a1 1 0 0 0 0-2H8zm-2 4a1 1 0 0 0 0 2h12a1 1 0 0 0 0-2H6z"/>
+        </svg>
+        <h1>Redirecting to Mars Article...</h1>
+        <p>You are being redirected to an interesting article about Mars. If you are not automatically redirected, please click the button below.</p>
+        <a id="redirect-link" href="#">Go to Article</a>
+    </div>
+    <script>
+        document.getElementById('redirect-link').href = window.location.href;
+    </script>
 </body>
 </html>
